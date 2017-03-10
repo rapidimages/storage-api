@@ -1,0 +1,29 @@
+{
+  "name": "storage-api-monorepo",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rapidimages/storage-api.git"
+  },
+  "author": {
+    "name": "James Kyburz",
+    "email": "james.kyburz@gmail.com"
+  },
+  "scripts": {
+    "packages:install": "npm install && lerna exec npm install",
+    "packages:build": "lerna run build",
+    "packages:lint": "lerna run lint",
+    "pretest": "npm run packages:install && npm run packages:build && npm run packages:lint",
+    "test": "standard test.js && tape test.js | tap-spec",
+    "publish:all": "standard && lerna publish --exact --force-publish=\"*\""
+  },
+  "devDependencies": {
+    "concat-stream": "1.6.0",
+    "lerna": "2.0.0-beta.38",
+    "rimraf": "2.6.1",
+    "standard": "9.0.1",
+    "tap-spec": "4.1.1",
+    "tape": "4.6.3"
+  },
+  "license": "Apache-2.0",
+  "private": true
+}

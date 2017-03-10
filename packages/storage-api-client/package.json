@@ -1,0 +1,54 @@
+{
+  "name": "@rapidimages/storage-api-client",
+  "description": "storage api client",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rapidimages/storage-api.git"
+  },
+  "keywords": [
+    "content-addressable-storage",
+    "storage",
+    "files"
+  ],
+  "author": {
+    "name": "James Kyburz",
+    "email": "james.kyburz@gmail.se"
+  },
+  "main": "dist/storage-api-client.cjs.js",
+  "version": "1.0.0",
+  "module": "dist/storage-api-client.es.js",
+  "browser": {
+    "./dist/storage-api-client.cjs.js": "./dist/storage-api-client.browser.cjs.js",
+    "./dist/storage-api-client.es.js": "./dist/storage-api-client.browser.es.js"
+  },
+  "scripts": {
+    "rollup:es": "rollup -c config/rollup.config.es.js && rollup -c config/rollup.config.browser.es.js",
+    "rollup:cjs": "rollup -c config/rollup.config.cjs.js && rollup -c config/rollup.config.browser.cjs.js",
+    "rollup": "npm run rollup:es && npm run rollup:cjs",
+    "lint": "standard",
+    "prebuild": "rm -rf dist && mkdir -p dist",
+    "build": "npm run rollup"
+  },
+  "dependencies": {
+    "concat-stream": "1.5.2",
+    "debug": "2.6.1",
+    "form-data": "2.1.2",
+    "hyperquest": "2.1.2",
+    "once": "1.4.0",
+    "rusha": "0.8.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "standard": {
+    "ignore": [
+      "dist/*"
+    ]
+  },
+  "devDependencies": {
+    "rollup": "0.43.0",
+    "rollup-plugin-buble": "0.15.0",
+    "rollup-plugin-replace": "1.1.1"
+  },
+  "license": "Apache-2.0"
+}

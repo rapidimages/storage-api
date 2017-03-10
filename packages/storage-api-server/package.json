@@ -1,0 +1,35 @@
+{
+  "name": "@rapidimages/storage-api-server",
+  "description": "storage api server",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rapidimages/storage-api.git"
+  },
+  "keywords": [
+    "content-addressable-storage",
+    "storage",
+    "files"
+  ],
+  "author": {
+    "name": "James Kyburz",
+    "email": "james.kyburz@gmail.se"
+  },
+  "main": "index.js",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index",
+    "lint": "standard",
+    "missing": "dependency-sync ./index.js --debug"
+  },
+  "dependencies": {
+    "busboy-wrapper": "1.0.37",
+    "mkdirp": "0.5.1",
+    "mv": "2.1.1",
+    "rimraf": "2.6.1",
+    "server-base": "4.7.0"
+  },
+  "devDependencies": {
+    "dependency-sync": "2.1.0"
+  },
+  "license": "Apache-2.0"
+}
