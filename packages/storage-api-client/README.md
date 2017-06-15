@@ -3,7 +3,7 @@
 # [Content-addressable storage](https://en.wikipedia.org/wiki/Content-addressable_storage) api for files.
 
 [![js-standard-style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/feross/standard)
-[![build status](https://api.travis-ci.org/rapidimages/storage-api-client.svg)](https://travis-ci.org/rapidimages/storage-api)
+[![build status](https://api.travis-ci.org/rapidimages/storage-api.svg)](https://travis-ci.org/rapidimages/storage-api)
 [![npm](https://img.shields.io/npm/v/@rapidimages/storage-api-client.svg)](https://npmjs.org/package/@rapidimages/storage-api-client)
 [![downloads](https://img.shields.io/npm/dm/@rapidimages/storage-api-client.svg)](https://npmjs.org/package/@rapidimages/storage-api-client)
 
