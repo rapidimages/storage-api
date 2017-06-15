@@ -14,7 +14,7 @@
     "packages:lint": "lerna run lint",
     "pretest": "npm run packages:install && npm run packages:build && npm run packages:lint",
     "test": "standard test.js && tape test.js | tap-spec",
-    "publish:all": "standard && lerna publish --exact --force-publish=\"*\""
+    "publish:all": "npm t && lerna publish --exact --force-publish=\"*\""
   },
   "devDependencies": {
     "concat-stream": "1.6.0",
