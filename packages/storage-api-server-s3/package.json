@@ -1,0 +1,34 @@
+{
+  "name": "@rapidimages/storage-api-server-s3",
+  "description": "storage api server with s3",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rapidimages/storage-api.git"
+  },
+  "keywords": [
+    "content-addressable-storage",
+    "storage",
+    "files"
+  ],
+  "author": {
+    "name": "James Kyburz",
+    "email": "james.kyburz@gmail.se"
+  },
+  "main": "index.js",
+  "version": "1.0.1",
+  "scripts": {
+    "start": "node index",
+    "lint": "standard",
+    "missing": "dependency-sync ./index.js --debug"
+  },
+  "dependencies": {
+    "aws-sdk": "2.72.0",
+    "busboy-wrapper": "1.0.37",
+    "rimraf": "2.6.1",
+    "server-base": "4.7.0"
+  },
+  "devDependencies": {
+    "dependency-sync": "2.1.0"
+  },
+  "license": "Apache-2.0"
+}
