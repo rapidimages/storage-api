@@ -46,18 +46,13 @@ function getKeys (files, onHashProgress, cb) {
   const keys = {}
   files.forEach((file) => {
     progress(file.name)
-    const reader = new window.FileReader()
-    reader.onerror = cb
-    reader.onload = () => {
-      const worker = createWorker(rusha)
-      worker.addEventListener('message', (e) => {
-        keys[e.data.id] = e.data.hash
-        worker.revoke()
-        done(file.name)
-      })
-      worker.postMessage({ id: file.name, data: reader.result })
-    }
-    reader.readAsArrayBuffer(file)
+    var worker = createWorker(rusha)
+    worker.addEventListener('message', (e) => {
+      keys[e.data.id] = e.data.hash
+      worker.revoke()
+      done(file.name)
+    })
+    worker.postMessage({ id: file.name, file })
   })
 
   function progress (file) {
