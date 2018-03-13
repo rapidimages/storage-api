@@ -77,7 +77,7 @@ STORAGE_PATH=x LOG_PRETTY=1 PORT=5000 npm start
 
 Will return an array of unknown hashes.
 
-# http post multipart /get/upload
+# http post multipart /upload
 
 Will return a string which will be the sha1 hash of the manifest.
 
