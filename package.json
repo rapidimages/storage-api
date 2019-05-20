@@ -13,16 +13,14 @@
     "packages:build": "lerna run build",
     "packages:lint": "lerna run lint",
     "pretest": "npm run packages:install && npm run packages:build && npm run packages:lint",
-    "test": "standard test.js && tape test.js | tap-spec",
     "publish:all": "npm t && lerna publish --exact --force-publish=\"*\""
+    "test": "npx standard test.js && tap test.js",
   },
   "devDependencies": {
-    "concat-stream": "1.6.0",
     "lerna": "2.0.0-beta.38",
     "rimraf": "2.6.1",
     "standard": "9.0.1",
-    "tap-spec": "4.1.1",
-    "tape": "4.6.3"
+    "tap": "14.0.0"
   },
   "license": "Apache-2.0",
   "private": true
