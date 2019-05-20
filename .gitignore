@@ -6,3 +6,4 @@ yarn-error.log*
 lerna-debug.log
 blob-storage
 dist
+.nyc_output/
