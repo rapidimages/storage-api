@@ -14,19 +14,23 @@
     "name": "James Kyburz",
     "email": "james.kyburz@gmail.se"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "version": "1.0.2",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "start": "node index",
     "lint": "standard",
+    "build": "echo",
     "missing": "dependency-sync ./index.js --debug"
   },
   "dependencies": {
-    "busboy-wrapper": "1.0.37",
+    "busboy-wrapper": "2.0.0",
     "mkdirp": "0.5.1",
     "mv": "2.1.1",
-    "rimraf": "2.6.1",
-    "server-base": "4.7.0"
+    "rimraf": "2.6.3",
+    "server-base": "7.0.23"
   },
   "devDependencies": {
     "dependency-sync": "2.1.0"

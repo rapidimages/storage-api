@@ -10,7 +10,7 @@ const { STORAGE_PATH } = process.env
 
 module.exports = ({
   '@setup': (ctx) => {
-    ctx.mime.default_type = ctx.mime.lookup('bin')
+    ctx.mime.default_type = ctx.mime.getType('bin')
   },
   '/unknown': {
     * post (q, r, _, parts) {
@@ -45,9 +45,7 @@ module.exports = ({
   },
   '/upload': {
     * post (q, r) {
-      const [ fields, files ] =
-        yield (cb) =>
-          busboy(q, (err, fields, files) => cb(err, [ fields, files ]))
+      const { fields, files } = yield busboy(q)
 
       const fieldKeys = Object.keys(fields)
       const fileKeys = Object.keys(files)
@@ -79,7 +77,6 @@ module.exports = ({
       const destination = shardKey(manifestKey)
       yield (cb) => mkdirp(path.dirname(destination), cb)
       yield (cb) => fs.writeFile(destination, data, cb)
-
       r.text(manifestKey)
     }
   }
