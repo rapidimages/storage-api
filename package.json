@@ -9,15 +9,14 @@
     "email": "james.kyburz@gmail.com"
   },
   "scripts": {
-    "packages:install": "npm install && lerna exec npm install",
-    "packages:build": "lerna run build",
-    "packages:lint": "lerna run lint",
+    "packages:install": "npm i && npx macleod exec npm i",
+    "packages:build": "npx macleod exec npm run build",
+    "packages:lint": "npx macleod exec npm run lint",
     "pretest": "npm run packages:install && npm run packages:build && npm run packages:lint",
-    "publish:all": "npm t && lerna publish --exact --force-publish=\"*\""
     "test": "npx standard test.js && tap test.js",
+    "publish:all": "npm t && npx macleod exec publish"
   },
   "devDependencies": {
-    "lerna": "2.0.0-beta.38",
     "rimraf": "2.6.1",
     "standard": "9.0.1",
     "tap": "14.0.0"
