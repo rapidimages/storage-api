@@ -25,7 +25,7 @@
     "rollup:es": "rollup -c config/rollup.config.es.js && rollup -c config/rollup.config.browser.es.js",
     "rollup:cjs": "rollup -c config/rollup.config.cjs.js && rollup -c config/rollup.config.browser.cjs.js",
     "rollup": "npm run rollup:es && npm run rollup:cjs",
-    "lint": "standard",
+    "lint": "npx standard",
     "prebuild": "rm -rf dist && mkdir -p dist",
     "build": "npm run rollup"
   },
