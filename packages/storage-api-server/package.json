@@ -21,9 +21,9 @@
   ],
   "scripts": {
     "start": "node index",
-    "lint": "standard",
+    "lint": "npx standard",
     "build": "echo",
-    "missing": "dependency-sync ./index.js --debug"
+    "missing": "npx dependency-sync ./index.js --debug"
   },
   "dependencies": {
     "busboy-wrapper": "2.0.0",
@@ -32,8 +32,6 @@
     "rimraf": "2.6.3",
     "server-base": "7.0.23"
   },
-  "devDependencies": {
-    "dependency-sync": "2.1.0"
-  },
+  "devDependencies": {},
   "license": "Apache-2.0"
 }
