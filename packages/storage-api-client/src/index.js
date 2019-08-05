@@ -51,7 +51,7 @@ export default (url) => {
             onRequest(request)
             let total
             let loaded = 0
-            let pendingProgress = []
+            const pendingProgress = []
             form.on('data', (data) => {
               loaded += data.length
               if (total) {
@@ -102,13 +102,13 @@ function getKeys (files, onHashProgress, cb) {
     const sha1 = crypto.createHash('sha1')
     sha1.setEncoding('hex')
     fs.createReadStream(file)
-    .on('data', sha1.write.bind(sha1))
-    .on('end', () => {
-      sha1.end()
-      keys[file] = sha1.read()
-      done()
-    })
-    .on('err', cb)
+      .on('data', sha1.write.bind(sha1))
+      .on('end', () => {
+        sha1.end()
+        keys[file] = sha1.read()
+        done()
+      })
+      .on('err', cb)
   })
 
   function progress (file) {

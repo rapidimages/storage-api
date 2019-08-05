@@ -82,18 +82,18 @@ function getUnknownKeys (url, details, cb) {
     redirect: 'manual',
     body: JSON.stringify(keys)
   })
-  .then(checkStatus)
-  .then((res) => res.json())
-  .then((data) => {
-    const unknown = {}
-    data.forEach((key) => {
-      const file = Object.keys(details).filter((x) => details[x] === key)[0]
-      unknown[file] = key
+    .then(checkStatus)
+    .then((res) => res.json())
+    .then((data) => {
+      const unknown = {}
+      data.forEach((key) => {
+        const file = Object.keys(details).filter((x) => details[x] === key)[0]
+        unknown[file] = key
+      })
+      debug('checking unknown %j and got %j', keys, unknown)
+      cb(null, unknown)
     })
-    debug('checking unknown %j and got %j', keys, unknown)
-    cb(null, unknown)
-  })
-  .catch(cb)
+    .catch(cb)
 }
 
 function createWorker (src) {
