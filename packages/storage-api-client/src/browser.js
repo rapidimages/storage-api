@@ -3,7 +3,7 @@ import hashProgress from './hash-progress'
 import once from 'once'
 import defaults from './defaults'
 
-const rusha = '#{RUSHA}'
+const rusha = window.atob('replace_with_rusha')
 
 export default (url = '') => {
   return { upload }
@@ -46,7 +46,7 @@ function getKeys (files, onHashProgress, cb) {
   const keys = {}
   files.forEach((file) => {
     progress(file.name)
-    var worker = createWorker(rusha.toString().split(/[\r\n]/).slice(1, -1).join('\n'))
+    var worker = createWorker(rusha)
     worker.addEventListener('message', (e) => {
       keys[e.data.id] = e.data.hash
       worker.revoke()
