@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "start": "node index",
-    "lint": "npx standard",
+    "lint": "npx standard@latest",
     "build": "echo",
     "missing": "npx dependency-sync ./index.js --debug"
   },
