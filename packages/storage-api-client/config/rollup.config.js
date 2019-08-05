@@ -13,10 +13,9 @@ const rushaString =
 
 export default config => {
   return {
-    entry: config.browser ? 'src/browser.js' : 'src/index.js',
-    format: config.format,
+    input: config.browser ? 'src/browser.js' : 'src/index.js',
+    output: config.output,
     moduleName: 'storage-api-client',
-    dest: config.dest,
     plugins: [buble(), replace({ "'#{RUSHA}'": rushaString })],
     external: Object.keys(pkg.dependencies).concat(['fs', 'crypto'])
   }
