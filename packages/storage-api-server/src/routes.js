@@ -36,7 +36,7 @@ module.exports = ({
       const stat = yield (cb) => fs.stat(filePath, cb)
       r.writeHead(200, {
         'content-type': r.getHeader('content-type'),
-        'etag': key,
+        etag: key,
         'last-modified': new Date().toGMTString(),
         'content-length': stat.size
       })
