@@ -15,7 +15,6 @@ export default config => {
   return {
     input: config.browser ? 'src/browser.js' : 'src/index.js',
     output: config.output,
-    moduleName: 'storage-api-client',
     plugins: [buble(), replace({ "'#{RUSHA}'": rushaString })],
     external: Object.keys(pkg.dependencies).concat(['fs', 'crypto'])
   }
