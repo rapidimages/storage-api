@@ -20,7 +20,7 @@
     "src"
   ],
   "scripts": {
-    "start": "node index",
+    "start": "node src/index.js",
     "lint": "npx standard@latest",
     "build": "echo",
     "missing": "npx dependency-sync ./index.js --debug"
