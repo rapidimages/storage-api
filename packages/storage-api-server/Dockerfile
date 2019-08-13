@@ -1,6 +1,6 @@
 FROM node:10.16.2-alpine
 
-MAINTAINER James Kyburz "james.kyburz@gmail.com"
+LABEL maintainer="James Kyburz james.kyburz@gmail.com"
 
 ARG NPM_CONFIG_LOGLEVEL=warn
 ARG NODE_ENV=development
