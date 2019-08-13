@@ -30,7 +30,7 @@
     "mkdirp": "0.5.1",
     "mv": "2.1.1",
     "rimraf": "2.6.3",
-    "server-base": "7.0.54"
+    "server-base": "7.0.57"
   },
   "devDependencies": {},
   "license": "Apache-2.0"
