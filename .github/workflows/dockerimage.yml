@@ -19,7 +19,7 @@ jobs:
         docker tag storage-api rapidimages/storage-api:$(git describe --tags)
     - name: Login to public docker registry
       run: >
-        echo ${{ secrets.DOCKERHUB_PASSWORD }} |
+        echo "${{ secrets.DOCKERHUB_PASSWORD }}" |
         docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Publish docker images to public registry
       run: |
@@ -31,7 +31,7 @@ jobs:
         docker tag storage-api docker.pkg.github.com/rapidimages/storage-api/storage-api:$(git describe --tags)
     - name: Login to github registry
       run: >
-        echo ${{ secrets.GITHUB_REGISTRY_TOKEN }} |
+        echo "${{ secrets.GITHUB_REGISTRY_TOKEN }}" |
         docker login docker.pkg.github.com --username rapidimages --password-stdin
     - name: Publish docker images to github
       run: |
