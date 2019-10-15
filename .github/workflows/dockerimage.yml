@@ -1,0 +1,40 @@
+name: Docker Image CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build ./packages/storage-api-server --file ./packages/storage-api-server/Dockerfile --tag storage-api
+    - uses: actions/checkout@v1
+    - name: Run tests
+      run: |
+        docker run -d --rm --name storage-api -p 5000:5000 storage-api
+        NO_SERVER=1 npm t
+        docker kill storage-api
+    - name: Tag docker image for public registry
+      run: |
+        docker tag storage-api rapidimages/storage-api
+        docker tag storage-api rapidimages/storage-api:$(git describe --tags)
+    - name: Login to public docker registry
+      run: >
+        echo ${{ secrets.DOCKERHUB_PASSWORD }} |
+        docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Publish docker images to public registry
+      run: |
+        docker push rapidimages/storage-api:latest
+        docker push rapidimages/storage-api:$(git describe --tags)
+    - name: Tag docker image for github registry
+      run: |
+        docker tag storage-api docker.pkg.github.com/rapidimages/storage-api/storage-api
+        docker tag storage-api docker.pkg.github.com/rapidimages/storage-api/storage-api:$(git describe --tags)
+    - name: Login to github registry
+      run: >
+        echo ${{ secrets.GITHUB_REGISTRY_TOKEN }} |
+        docker login docker.pkg.github.com --username rapidimages --password-stdin
+    - name: Publish docker images to github
+      run: |
+        docker push docker.pkg.github.com/rapidimages/storage-api/storage-api:latest
+        docker push docker.pkg.github.com/rapidimages/storage-api/storage-api:$(git describe --tags)
+

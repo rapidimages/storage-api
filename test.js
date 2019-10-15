@@ -44,12 +44,10 @@ process.env.STORAGE_PATH = path.join(
   new Date().getTime().toString(36)
 )
 
-const server = spawn('node', ['./packages/storage-api-server'], {
+const server = !process.env.NO_SERVER && spawn('node', ['./packages/storage-api-server'], {
   env: process.env,
   stdio: process.env.DEBUG ? 'inherit' : ''
 })
-
-process.on('exit', server.kill.bind(server))
 
 test('server is running', t => {
   ;(function poll () {
@@ -143,7 +141,7 @@ test('check manifest for upload', async t => {
   )
 })
 
-test('cleanup', t => {
+!process.env.NO_SERVER && test('cleanup', t => {
   server.kill()
   rimraf(process.env.STORAGE_PATH, t.end)
 })
