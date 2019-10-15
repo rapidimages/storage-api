@@ -26,11 +26,11 @@
     "missing": "npx dependency-sync ./index.js --debug"
   },
   "dependencies": {
-    "busboy-wrapper": "2.0.29",
+    "busboy-wrapper": "2.0.43",
     "mkdirp": "0.5.1",
     "mv": "2.1.1",
-    "rimraf": "2.6.3",
-    "server-base": "7.0.57"
+    "rimraf": "3.0.0",
+    "server-base": "7.0.84"
   },
   "devDependencies": {},
   "license": "Apache-2.0"

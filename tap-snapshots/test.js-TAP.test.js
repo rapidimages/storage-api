@@ -213,6 +213,10 @@ exports[`test.js TAP check manifest for upload > must match snapshot 2`] = `
    limitations under the License.
 `
 
+exports[`test.js TAP upload same file to storage checking it's known > must match snapshot 1`] = `
+ff7bdf679d697b88c47436aba24b9136c046da92
+`
+
 exports[`test.js TAP upload this file to storage > must match snapshot 1`] = `
 ff7bdf679d697b88c47436aba24b9136c046da92
 `

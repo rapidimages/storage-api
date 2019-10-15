@@ -27,6 +27,16 @@ const get = url =>
     request.on('error', reject)
   })
 
+const get304 = key =>
+  new Promise((resolve, reject) => {
+    const request = http.get(`http://localhost:5000/get/${key}`, { headers: { 'if-none-match': key } }, res => {
+      if (res.statusCode !== 304) return reject(new Error('error'))
+      resolve()
+      res.resume()
+    })
+    request.on('error', reject)
+  })
+
 process.env.PORT = 5000
 process.env.STORAGE_PATH = path.join(
   require('os').tmpdir(),
@@ -66,6 +76,48 @@ test('upload this file to storage', async t => {
   })
 
   t.matchSnapshot(hash.toString())
+})
+
+test('upload same file to storage checking it\'s known', async t => {
+  const hash = await client.upload([fs.createReadStream('LICENSE')], {
+    onUploadProgress () {
+      t.ok(true, 'onUploadProgress called')
+    },
+    onHashProgress () {
+      t.ok(true, 'onHashProgress called')
+    },
+    onRequest () {
+      t.ok(true, 'onRequest called')
+    },
+    onUnknown (unknown) {
+      t.notOk(unknown.LICENSE, 'file should be known')
+    }
+  })
+
+  t.matchSnapshot(hash.toString())
+})
+
+test('etag for known file', async t => {
+  const hash = await client.upload([fs.createReadStream('LICENSE')])
+  await get304(hash.toString())
+})
+
+test('uploading no files fails', async t => {
+  try {
+    await client.upload([])
+    t.fail()
+  } catch (err) {
+    t.pass()
+  }
+})
+
+test('uploading no files should fail', async t => {
+  try {
+    await client.upload([])
+    t.fail()
+  } catch (err) {
+    t.pass()
+  }
 })
 
 test('uploading same file again just gets manifest', async t => {
