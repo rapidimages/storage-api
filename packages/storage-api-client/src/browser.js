@@ -3,9 +3,10 @@ import hashProgress from './hash-progress'
 import once from 'once'
 import defaults from './defaults'
 import browserDebug from './browser-debug'
+import rushaString from './rusha-string'
 
-const rusha = window.atob('replace_with_rusha')
 const debug = browserDebug('@rapidimages/storage-api-client')
+const rusha = rushaString()
 
 export default (url = '') => {
   return { upload }
