@@ -5,6 +5,7 @@ const client = require('./packages/storage-api-client')('http://localhost:5000')
 const fs = require('fs')
 const rimraf = require('rimraf')
 const http = require('http')
+const FormData = require('./packages/storage-api-client/node_modules/form-data')
 
 tap.cleanSnapshot = s => {
   return s.replace(/"path":"[^"]*"/g, 'temporary-path')
@@ -107,6 +108,15 @@ test('uploading no files fails', async t => {
   } catch (err) {
     t.pass()
   }
+})
+
+test('uploading fails on server if multipart has no files', t => {
+  t.plan(2)
+  const form = new FormData()
+  form.submit('http://localhost:5000/upload', (err, res) => {
+    t.error(err)
+    t.equals(res.statusCode, 500)
+  })
 })
 
 test('uploading no files should fail', async t => {
