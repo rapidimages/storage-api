@@ -1,5 +1,5 @@
-import buble from 'rollup-plugin-buble'
-import replace from 'rollup-plugin-replace'
+import buble from '@rollup/plugin-buble'
+import replace from '@rollup/plugin-replace'
 import fs from 'fs'
 
 const pkg = require('../package')

@@ -2,8 +2,10 @@ import uploadProgress from './upload-progress'
 import hashProgress from './hash-progress'
 import once from 'once'
 import defaults from './defaults'
+import browserDebug from './browser-debug'
 
 const rusha = window.atob('replace_with_rusha')
+const debug = browserDebug('@rapidimages/storage-api-client')
 
 export default (url = '') => {
   return { upload }
@@ -107,12 +109,4 @@ function createWorker (src) {
 
 function checkStatus (res) {
   return res.status === 200 ? Promise.resolve(res) : res.text().then((text) => Promise.reject(text))
-}
-
-function debug () {
-  const name = '@rapidimages/storage-api-client'
-  const filter = window.localStorage.getItem('debug') || ''
-  if (filter === '*' || filter.indexOf(name) !== -1) {
-    console.log.apply(console, [name + ':'].concat([].slice.call(arguments)))
-  }
 }
