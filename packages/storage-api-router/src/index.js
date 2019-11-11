@@ -47,7 +47,7 @@ module.exports = ({
   },
   '/upload': {
     * post (req, res) {
-      const { fields, files } = yield busboy(req)
+      const { fields, files } = yield busboy(req, { createHash: createDigest })
 
       const fieldKeys = Object.keys(fields)
       const fileKeys = Object.keys(files)
@@ -62,8 +62,9 @@ module.exports = ({
         )
       }
 
-      if (!fileKeys.length && !fieldKeys.length)
+      if (!fileKeys.length && !fieldKeys.length) {
         return res.error('no files', 400)
+      }
 
       for (const name of fileKeys) {
         const file = files[name]

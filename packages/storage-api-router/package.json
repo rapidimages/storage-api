@@ -1,0 +1,33 @@
+{
+  "name": "@rapidimages/storage-api-router",
+  "description": "storage api router",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/rapidimages/storage-api.git"
+  },
+  "keywords": [
+    "content-addressable-storage",
+    "storage",
+    "files"
+  ],
+  "author": "James Kyburz <james.kyburz@gmail.se>",
+  "main": "src/index.js",
+  "version": "1.1.6",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "npx standard@latest",
+    "build": "echo"
+  },
+  "dependencies": {
+    "busboy-wrapper": "2.0.56",
+    "rimraf": "3.0.0"
+  },
+  "devDependencies": {},
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/rapidimages/storage-api/issues"
+  },
+  "homepage": "https://github.com/rapidimages/storage-api#readme"
+}

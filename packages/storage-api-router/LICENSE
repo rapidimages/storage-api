@@ -1,15 +1,3 @@
-/* IMPORTANT
- * This snapshot file is auto-generated, but designed for humans.
- * It should be checked into source control and tracked carefully.
- * Re-generate by setting TAP_SNAPSHOT=1 and running tests.
- * Make sure to inspect the output below.  Do not ignore changes!
- */
-'use strict'
-exports[`test.js TAP check manifest for upload > must match snapshot 1`] = `
-{"files":[{"size":11356,"name":"LICENSE","key":"81fd98ae93fd5e0a79ebca20ec8881478fe402a8"}]}
-`
-
-exports[`test.js TAP check manifest for upload > must match snapshot 2`] = `
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -211,20 +199,3 @@ exports[`test.js TAP check manifest for upload > must match snapshot 2`] = `
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-`
-
-exports[`test.js TAP upload multiple files > must match snapshot 1`] = `
-fe11bb60b2de14a7c0643f117f8b0fdbe4e030e6
-`
-
-exports[`test.js TAP upload same file to storage checking it's known > must match snapshot 1`] = `
-ff7bdf679d697b88c47436aba24b9136c046da92
-`
-
-exports[`test.js TAP upload this file to storage > must match snapshot 1`] = `
-ff7bdf679d697b88c47436aba24b9136c046da92
-`
-
-exports[`test.js TAP uploading same file again just gets manifest > must match snapshot 1`] = `
-ff7bdf679d697b88c47436aba24b9136c046da92
-`

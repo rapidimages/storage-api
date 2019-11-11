@@ -96,6 +96,26 @@ test('upload same file to storage checking it\'s known', async t => {
   t.matchSnapshot(hash.toString())
 })
 
+test('upload multiple files', async t => {
+  const hash = await client.upload([fs.createReadStream('LICENSE'), fs.createReadStream('package.json')], {
+    onUploadProgress () {
+      t.ok(true, 'onUploadProgress called')
+    },
+    onHashProgress () {
+      t.ok(true, 'onHashProgress called')
+    },
+    onRequest () {
+      t.ok(true, 'onRequest called')
+    },
+    onUnknown (unknown) {
+      t.notOk(unknown.LICENSE, 'file should be known')
+      t.ok(unknown['package.json'], 'file should be known')
+    }
+  })
+
+  t.matchSnapshot(hash.toString())
+})
+
 test('etag for known file', async t => {
   const hash = await client.upload([fs.createReadStream('LICENSE')])
   await get304(hash.toString())
@@ -115,7 +135,7 @@ test('uploading fails on server if multipart has no files', t => {
   const form = new FormData()
   form.submit('http://localhost:5000/upload', (err, res) => {
     t.error(err)
-    t.equals(res.statusCode, 500)
+    t.equals(res.statusCode, 400)
   })
 })
 
