@@ -1,9 +1,9 @@
 import fs from 'fs'
 import FormData from 'form-data'
-import hyperquest from 'hyperquest'
+import once from 'once'
+import fetch from 'node-fetch'
 import crypto from 'crypto'
 import concat from 'concat-stream'
-import once from 'once'
 import uploadProgress from './upload-progress'
 import hashProgress from './hash-progress'
 import defaults from './defaults'
@@ -26,15 +26,6 @@ export default (url) => {
           onUnknown(unknown)
           getStats(files, (err, stats) => {
             if (err) return reject(err)
-            const progress = uploadProgress(Object.keys(stats).reduce((sum, key) => {
-              if (unknown[key]) {
-                sum.push({
-                  size: stats[key].size,
-                  name: key
-                })
-              }
-              return sum
-            }, []))
             const form = new FormData()
             files.forEach((file) => {
               if (unknown[file]) {
@@ -44,6 +35,15 @@ export default (url) => {
                 form.append(file, JSON.stringify({ name: file, key: keys[file], size: stats[file].size }))
               }
             })
+            const progress = uploadProgress(Object.keys(stats).reduce((sum, key) => {
+              if (unknown[key]) {
+                sum.push({
+                  size: stats[key].size,
+                  name: key
+                })
+              }
+              return sum
+            }, []))
             const request = form.submit(`${url}/upload`, (err, res) => {
               if (err || res.statusCode !== 200) return reject(new Error(`failed to upload ${err}`))
               res.pipe(concat((key) => resolve(key)))
@@ -52,6 +52,7 @@ export default (url) => {
             let total
             let loaded = 0
             const pendingProgress = []
+            form.on('error', reject)
             form.on('data', (data) => {
               loaded += data.length
               if (total) {
@@ -74,7 +75,6 @@ export default (url) => {
 }
 
 function getStats (files, cb) {
-  cb = once(cb)
   let pending = files.length
   const stats = {}
   files.forEach((file) => {
@@ -130,11 +130,16 @@ function getKeys (files, onHashProgress, cb) {
 }
 
 function getUnknownKeys (url, details, cb) {
+  cb = once(cb)
   const keys = Object.keys(details).map((x) => details[x])
-  const request = hyperquest.post(`${url}/unknown`, (err, res) => {
-    if (err || res.statusCode !== 200) return cb(new Error(`failed to get unknown keys ${err}`))
-    res.pipe(concat((data) => {
-      data = JSON.parse(data)
+  fetch(`${url}/unknown`, {
+    method: 'POST',
+    redirect: 'manual',
+    body: JSON.stringify(keys)
+  })
+    .then(checkStatus)
+    .then((res) => res.json())
+    .then((data) => {
       const unknown = {}
       data.forEach((key) => {
         const file = Object.keys(details).filter((x) => details[x] === key)[0]
@@ -142,8 +147,10 @@ function getUnknownKeys (url, details, cb) {
       })
       debug('checking unknown %j and got %j', keys, unknown)
       cb(null, unknown)
-    }))
-  })
-  request.write(JSON.stringify(keys))
-  request.end()
+    })
+    .catch(cb)
+}
+
+function checkStatus (res) {
+  return res.status === 200 ? Promise.resolve(res) : res.text().then((text) => Promise.reject(text))
 }
