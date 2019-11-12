@@ -45,7 +45,7 @@ process.env.STORAGE_PATH = path.join(
   new Date().getTime().toString(36)
 )
 
-const server = !process.env.NO_SERVER && spawn('node', ['./packages/storage-api-server'], {
+const server = !process.env.NO_SERVER && spawn('node', ['./test-server'], {
   env: process.env,
   stdio: process.env.DEBUG ? 'inherit' : ''
 })
@@ -97,7 +97,7 @@ test('upload same file to storage checking it\'s known', async t => {
 })
 
 test('upload multiple files', async t => {
-  const hash = await client.upload([fs.createReadStream('LICENSE'), fs.createReadStream('package.json')], {
+  const hash = await client.upload([fs.createReadStream('LICENSE'), fs.createReadStream('test-server.js')], {
     onUploadProgress () {
       t.ok(true, 'onUploadProgress called')
     },
@@ -109,7 +109,7 @@ test('upload multiple files', async t => {
     },
     onUnknown (unknown) {
       t.notOk(unknown.LICENSE, 'file should be known')
-      t.ok(unknown['package.json'], 'file should be known')
+      t.ok(unknown['test-server.js'], 'file should be known')
     }
   })
 

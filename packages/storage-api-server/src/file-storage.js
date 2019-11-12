@@ -1,8 +1,9 @@
 const fs = require('fs')
-const mv = require('mv')
-const mkdirp = require('mkdirp')
 const crypto = require('crypto')
 const path = require('path')
+const { promisify } = require('util')
+const mkdirp = promisify(require('mkdirp'))
+const mv = promisify(require('mv'))
 
 const { STORAGE_PATH } = process.env
 
@@ -13,14 +14,13 @@ module.exports = {
   createReadStream (filePath) {
     return fs.createReadStream(filePath)
   },
-  writeFile (filePath, data, cb) {
-    return fs.writeFile(filePath, data, cb)
+  async uploadFile (source, destination, cb) {
+    await mkdirp(path.dirname(destination))
+    await mv(source, destination)
   },
-  mkdirp (filePath, cb) {
-    return mkdirp(filePath, cb)
-  },
-  mv (source, destination, cb) {
-    return mv(source, destination, cb)
+  async uploadManifest (destination, data) {
+    await mkdirp(path.dirname(destination))
+    await fs.promises.writeFile(destination, data)
   },
   shardKey (key) {
     const delimiter = '/'

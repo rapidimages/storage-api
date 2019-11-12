@@ -1,19 +1,18 @@
 const busboy = require('busboy-wrapper')
-const path = require('path')
 const rimraf = require('rimraf')
+const pump = require('pump')
+
+process.env.MIME_DEFAULT =
+  process.env.MIME_DEFAULT || 'application/octet-stream'
 
 module.exports = ({
   shardKey,
   meta,
   createReadStream,
-  writeFile,
-  mv,
-  mkdirp,
-  createDigest
+  createDigest,
+  uploadFile,
+  uploadManifest
 }) => ({
-  '@setup': ctx => {
-    ctx.mime.default_type = ctx.mime.getType('bin')
-  },
   '/unknown': {
     * post (req, res, _, parts) {
       const unknown = []
@@ -36,13 +35,16 @@ module.exports = ({
       const filePath = shardKey(key)
       res.setNextErrorMessage('not found', 404)
       const { size } = yield cb => meta(filePath, cb)
-      res.writeHead(200, {
-        'content-type': res.getHeader('content-type'),
-        etag: key,
-        'last-modified': new Date().toGMTString(),
-        'content-length': size
+      pump(createReadStream(filePath), res, err => {
+        if (!res.headersSent) res.error(err)
+      }).once('data', () => {
+        res.writeHead(200, {
+          'content-type': res.getHeader('content-type'),
+          etag: key,
+          'last-modified': new Date().toGMTString(),
+          'content-length': size
+        })
       })
-      createReadStream(filePath).pipe(res)
     }
   },
   '/upload': {
@@ -71,10 +73,8 @@ module.exports = ({
         const source = file.path
         const { size, hash: key } = file
         manifest.files.push({ size, name, key })
-
         const destination = shardKey(file.hash)
-        yield cb => mkdirp(path.dirname(destination), cb)
-        yield cb => mv(source, destination, cb)
+        yield uploadFile(source, destination)
         yield cb => rimraf(source, cb)
       }
 
@@ -86,8 +86,7 @@ module.exports = ({
         cb(null, digest.read())
       }
       const destination = shardKey(manifestKey)
-      yield cb => mkdirp(path.dirname(destination), cb)
-      yield cb => writeFile(destination, data, cb)
+      yield uploadManifest(destination, data)
       res.text(manifestKey)
     }
   }
