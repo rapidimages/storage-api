@@ -8,7 +8,16 @@ jobs:
     - name: Build the Docker image
       run: docker build ./packages/storage-api-server --file ./packages/storage-api-server/Dockerfile --tag storage-api
     - uses: actions/checkout@v1
-    - name: Run tests
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Run tests with local server
+      run: npm t
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Run tests with docker
       run: |
         docker run -d --rm --name storage-api -p 5000:5000 storage-api
         NO_SERVER=1 npm t
