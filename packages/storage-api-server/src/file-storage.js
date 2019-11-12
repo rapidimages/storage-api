@@ -1,9 +1,8 @@
 const fs = require('fs')
 const crypto = require('crypto')
 const path = require('path')
-const { promisify } = require('util')
-const mkdirp = promisify(require('mkdirp'))
-const mv = promisify(require('mv'))
+const mv = require('move-file')
+const mkdirp = require('make-dir')
 
 const { STORAGE_PATH } = process.env
 

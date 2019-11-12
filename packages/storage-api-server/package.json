@@ -28,9 +28,8 @@
   "dependencies": {
     "@rapidimages/storage-api-router": "1.1.6",
     "busboy-wrapper": "2.0.56",
-    "mkdirp": "0.5.1",
-    "mv": "2.1.1",
-    "rimraf": "3.0.0",
+    "make-dir": "3.0.0",
+    "move-file": "1.2.0",
     "server-base": "7.0.84"
   },
   "devDependencies": {},
