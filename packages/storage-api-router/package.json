@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "busboy-wrapper": "2.0.56",
-    "pump": "3.0.0",
-    "rimraf": "3.0.0"
+    "del": "5.1.0",
+    "pump": "3.0.0"
   },
   "devDependencies": {},
   "license": "Apache-2.0",

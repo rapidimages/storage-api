@@ -1,5 +1,5 @@
 const busboy = require('busboy-wrapper')
-const rimraf = require('rimraf')
+const del = require('del')
 const pump = require('pump')
 
 process.env.MIME_DEFAULT =
@@ -68,14 +68,15 @@ module.exports = ({
         return res.error('no files', 400)
       }
 
+      const pendingUploads = []
+
       for (const name of fileKeys) {
         const file = files[name]
         const source = file.path
         const { size, hash: key } = file
         manifest.files.push({ size, name, key })
         const destination = shardKey(file.hash)
-        yield uploadFile(source, destination)
-        yield cb => rimraf(source, cb)
+        pendingUploads.push(uploadFile(source, destination).then(() => del(source)))
       }
 
       const data = JSON.stringify(manifest)
@@ -86,7 +87,10 @@ module.exports = ({
         cb(null, digest.read())
       }
       const destination = shardKey(manifestKey)
-      yield uploadManifest(destination, data)
+      pendingUploads.push(uploadManifest(destination, data))
+
+      yield * pendingUploads
+
       res.text(manifestKey)
     }
   }
