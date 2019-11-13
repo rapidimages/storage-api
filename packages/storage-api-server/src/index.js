@@ -1,7 +1,6 @@
-const server = require('server-base')
+const http = require('http')
 const routes = require('@rapidimages/storage-api-router')
-const fileStorage = require('./file-storage.js')
+const storageProvider = require(process.env.STORAGE_PROVIDER ||
+  './file-storage.js')
 
-server(routes(fileStorage))
-  .config.assert(['PORT', 'STORAGE_PATH'])
-  .start()
+http.createServer(routes(storageProvider)).listen(5000)

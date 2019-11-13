@@ -23,7 +23,9 @@
   "dependencies": {
     "busboy-wrapper": "2.0.56",
     "del": "5.1.0",
-    "pump": "3.0.0"
+    "ms": "2.1.2",
+    "pump": "3.0.0",
+    "server-base-router": "7.0.88"
   },
   "devDependencies": {},
   "license": "Apache-2.0",

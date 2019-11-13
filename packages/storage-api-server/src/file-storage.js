@@ -8,7 +8,7 @@ const { STORAGE_PATH } = process.env
 
 module.exports = {
   meta (filePath, cb) {
-    return fs.stat(filePath, cb)
+    return fs.stat(filePath, (_, data = {}) => cb(null, data))
   },
   createReadStream (filePath) {
     return fs.createReadStream(filePath)
