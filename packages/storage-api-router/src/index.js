@@ -2,10 +2,8 @@ const busboy = require('busboy-wrapper')
 const del = require('del')
 const pump = require('pump')
 const router = require('server-base-router')
-const ms = require('ms')
 
 module.exports = ({
-  shardKey,
   meta,
   createReadStream,
   createDigest,
@@ -14,46 +12,47 @@ module.exports = ({
 }) =>
   router({
     '/unknown': {
-      * post (req, res, _, parts) {
+      async post (req, res, _, parts) {
         const unknown = []
-        for (const parts of yield req.json()) {
+        for (const parts of await req.json()) {
           const key = parts.split('.')[0]
-          const filePath = shardKey(key)
-          const { size } = yield cb => meta(filePath, cb)
+          const { size } = await meta(key)
           if (size === undefined) unknown.push(parts)
         }
         res.json(unknown)
       }
     },
     '/get/.*': {
-      * get (req, res, _, parts) {
+      async get (req, res, _, parts) {
         const key = parts.split('.')[0]
         if (req.headers['if-none-match'] === key) {
           res.writeHead(304)
           res.end()
           return
         }
-        const filePath = shardKey(key)
-        const { size } = yield cb => meta(filePath, cb)
+        const { size } = await meta(key)
         if (size === undefined) {
           res.writeHead(404)
           return res.end()
         }
+
+        const ONE_YEAR_IN_SECONDS = 31557600
+
         res.writeHead(200, {
           'content-type': res.getHeader('content-type'),
-          'cache-control': `max-age=${ms('1 year')}`,
+          'cache-control': `max-age=${ONE_YEAR_IN_SECONDS}`,
           etag: key,
           'last-modified': new Date().toGMTString(),
           'content-length': size
         })
-        pump(createReadStream(filePath), res, err => {
+        pump(createReadStream(key), res, err => {
           if (err) res.error(err)
         })
       }
     },
     '/upload': {
-      * post (req, res) {
-        const { fields, files } = yield busboy(req, {
+      async post (req, res) {
+        const { fields, files } = await busboy(req, {
           createHash: createDigest
         })
 
@@ -81,23 +80,21 @@ module.exports = ({
           const source = file.path
           const { size, hash: key } = file
           manifest.files.push({ size, name, key })
-          const destination = shardKey(file.hash)
           pendingUploads.push(
-            uploadFile(source, destination).then(() => del(source))
+            uploadFile(source, file.hash).then(() => del(source))
           )
         }
 
         const data = JSON.stringify(manifest)
-        const manifestKey = yield cb => {
+        const manifestKey = await new Promise((resolve, reject) => {
           const digest = createDigest()
           digest.write(data)
           digest.end()
-          cb(null, digest.read())
-        }
-        const destination = shardKey(manifestKey)
-        pendingUploads.push(uploadManifest(destination, data))
+          resolve(digest.read())
+        })
+        pendingUploads.push(uploadManifest(manifestKey, data))
 
-        yield * pendingUploads
+        await Promise.all(pendingUploads)
 
         res.text(manifestKey)
       }

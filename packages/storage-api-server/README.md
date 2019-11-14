@@ -31,10 +31,11 @@ Returns an instance of client.
 `options.onUnknown(unknown)` contains object of files that will be uploaded to api
 
 ## Usage
+
 ```js
-  Client('url')
+Client('url')
   .upload([files])
-  .then((manifestKey) => {
+  .then(manifestKey => {
     // a hash to the manifest of this upload containing all file keys
   })
 ```
@@ -64,7 +65,6 @@ The client is available for both node and the browser.
 # Upload
 
 Files that are known by the server will not be uploaded again :) this is thanks to sha1 hashing.
-
 
 # Usage
 

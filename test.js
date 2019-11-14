@@ -200,7 +200,7 @@ test('headers when getting files', t => {
   http.get(url, res => {
     t.equals(res.statusCode, 200)
     t.equals(res.headers.etag, 'ff7bdf679d697b88c47436aba24b9136c046da92')
-    t.equals(res.headers['cache-control'], 'max-age=31557600000')
+    t.equals(res.headers['cache-control'], 'max-age=31557600')
     t.end()
   })
 })
