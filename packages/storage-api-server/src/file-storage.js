@@ -10,7 +10,7 @@ module.exports = {
   async meta (key) {
     return fs.promises.stat(shardKey(key)).catch(_ => ({}))
   },
-  createReadStream (key) {
+  async createReadStream (key) {
     return fs.createReadStream(shardKey(key))
   },
   async uploadFile (source, key, cb) {

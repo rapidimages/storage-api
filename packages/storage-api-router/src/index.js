@@ -45,7 +45,8 @@ module.exports = ({
           'last-modified': new Date().toGMTString(),
           'content-length': size
         })
-        pump(createReadStream(key), res, err => {
+        const contentStream = await createReadStream(key)
+        pump(contentStream, res, err => {
           if (err) res.error(err)
         })
       }
@@ -81,7 +82,7 @@ module.exports = ({
           const { size, hash: key } = file
           manifest.files.push({ size, name, key })
           pendingUploads.push(
-            uploadFile(source, file.hash).then(() => del(source))
+            uploadFile(source, file.hash).then(() => del(source, { force: true }))
           )
         }
 
