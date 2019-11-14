@@ -8,12 +8,10 @@ const { STORAGE_PATH } = process.env
 
 module.exports = {
   async meta (key) {
-    const filePath = shardKey(key)
-    return fs.promises.stat(filePath).catch(_ => ({}))
+    return fs.promises.stat(shardKey(key)).catch(_ => ({}))
   },
   createReadStream (key) {
-    const filePath = shardKey(key)
-    return fs.createReadStream(filePath)
+    return fs.createReadStream(shardKey(key))
   },
   async uploadFile (source, key, cb) {
     const destination = shardKey(key)
