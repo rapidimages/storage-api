@@ -32,10 +32,11 @@ Returns an instance of client.
 `options.onUnknown(unknown)` contains object of files that will be uploaded to api
 
 ## Usage
+
 ```js
-  Client('url')
+Client('url')
   .upload([files])
-  .then((manifestKey) => {
+  .then(manifestKey => {
     // a hash to the manifest of this upload containing all file keys
   })
 ```

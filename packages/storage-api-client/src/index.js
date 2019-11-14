@@ -10,13 +10,15 @@ import defaults from './defaults'
 
 const debug = require('debug')('@rapidimages/storage-api-client')
 
-export default (url) => {
+export default url => {
   if (!url) throw new Error('url must be specified')
   return { upload }
 
   function upload (files = [], opts) {
-    const { onUploadProgress, onHashProgress, onUnknown, onRequest } = defaults(opts)
-    files = files.map((file) => file.path ? file.path : file)
+    const { onUploadProgress, onHashProgress, onUnknown, onRequest } = defaults(
+      opts
+    )
+    files = files.map(file => (file.path ? file.path : file))
     return new Promise((resolve, reject) => {
       if (!files.length) reject(new Error('no files specified'))
       getKeys(files, onHashProgress, (err, keys) => {
@@ -27,33 +29,43 @@ export default (url) => {
           getStats(files, (err, stats) => {
             if (err) return reject(err)
             const form = new FormData()
-            files.forEach((file) => {
+            files.forEach(file => {
               if (unknown[file]) {
                 form.append(file, fs.createReadStream(file))
               } else {
                 debug(`file ${file} already known sending details only`)
-                form.append(file, JSON.stringify({ name: file, key: keys[file], size: stats[file].size }))
+                form.append(
+                  file,
+                  JSON.stringify({
+                    name: file,
+                    key: keys[file],
+                    size: stats[file].size
+                  })
+                )
               }
             })
-            const progress = uploadProgress(Object.keys(stats).reduce((sum, key) => {
-              if (unknown[key]) {
-                sum.push({
-                  size: stats[key].size,
-                  name: key
-                })
-              }
-              return sum
-            }, []))
+            const progress = uploadProgress(
+              Object.keys(stats).reduce((sum, key) => {
+                if (unknown[key]) {
+                  sum.push({
+                    size: stats[key].size,
+                    name: key
+                  })
+                }
+                return sum
+              }, [])
+            )
             const request = form.submit(`${url}/upload`, (err, res) => {
-              if (err || res.statusCode !== 200) return reject(new Error(`failed to upload ${err}`))
-              res.pipe(concat((key) => resolve(key)))
+              if (err || res.statusCode !== 200)
+                return reject(new Error(`failed to upload ${err}`))
+              res.pipe(concat(key => resolve(key)))
             })
             onRequest(request)
             let total
             let loaded = 0
             const pendingProgress = []
             form.on('error', reject)
-            form.on('data', (data) => {
+            form.on('data', data => {
               loaded += data.length
               if (total) {
                 onUploadProgress(progress({ loaded, total }))
@@ -64,7 +76,9 @@ export default (url) => {
             form.getLength((err, length) => {
               if (!err) {
                 total = length
-                pendingProgress.forEach((loaded) => onUploadProgress(progress({ loaded, total })))
+                pendingProgress.forEach(loaded =>
+                  onUploadProgress(progress({ loaded, total }))
+                )
               }
             })
           })
@@ -77,7 +91,7 @@ export default (url) => {
 function getStats (files, cb) {
   let pending = files.length
   const stats = {}
-  files.forEach((file) => {
+  files.forEach(file => {
     fs.stat(file, (err, stat) => {
       if (err) return cb(err)
       stats[file] = stat
@@ -97,7 +111,7 @@ function getKeys (files, onHashProgress, cb) {
   cb = once(cb)
   let loaded = 0
   const keys = {}
-  files.forEach((file) => {
+  files.forEach(file => {
     progress(file)
     const sha1 = crypto.createHash('sha1')
     sha1.setEncoding('hex')
@@ -112,11 +126,13 @@ function getKeys (files, onHashProgress, cb) {
   })
 
   function progress (file) {
-    onHashProgress(hashProgress({
-      file,
-      total: files.length,
-      loaded: loaded
-    }))
+    onHashProgress(
+      hashProgress({
+        file,
+        total: files.length,
+        loaded: loaded
+      })
+    )
   }
 
   function done (file) {
@@ -131,18 +147,18 @@ function getKeys (files, onHashProgress, cb) {
 
 function getUnknownKeys (url, details, cb) {
   cb = once(cb)
-  const keys = Object.keys(details).map((x) => details[x])
+  const keys = Object.keys(details).map(x => details[x])
   fetch(`${url}/unknown`, {
     method: 'POST',
     redirect: 'manual',
     body: JSON.stringify(keys)
   })
     .then(checkStatus)
-    .then((res) => res.json())
-    .then((data) => {
+    .then(res => res.json())
+    .then(data => {
       const unknown = {}
-      data.forEach((key) => {
-        const file = Object.keys(details).filter((x) => details[x] === key)[0]
+      data.forEach(key => {
+        const file = Object.keys(details).filter(x => details[x] === key)[0]
         unknown[file] = key
       })
       debug('checking unknown %j and got %j', keys, unknown)
@@ -152,5 +168,7 @@ function getUnknownKeys (url, details, cb) {
 }
 
 function checkStatus (res) {
-  return res.status === 200 ? Promise.resolve(res) : res.text().then((text) => Promise.reject(text))
+  return res.status === 200
+    ? Promise.resolve(res)
+    : res.text().then(text => Promise.reject(text))
 }
