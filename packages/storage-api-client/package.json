@@ -15,7 +15,7 @@
     "email": "james.kyburz@gmail.se"
   },
   "main": "dist/storage-api-client.cjs",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "module": "dist/storage-api-client.es.js",
   "browser": {
     "./dist/storage-api-client.cjs.js": "./dist/storage-api-client.browser.cjs.js",
