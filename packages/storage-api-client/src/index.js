@@ -56,8 +56,9 @@ export default url => {
               }, [])
             )
             const request = form.submit(`${url}/upload`, (err, res) => {
-              if (err || res.statusCode !== 200)
+              if (err || res.statusCode !== 200) {
                 return reject(new Error(`failed to upload ${err}`))
+              }
               res.pipe(concat(key => resolve(key)))
             })
             onRequest(request)
