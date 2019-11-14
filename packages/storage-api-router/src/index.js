@@ -86,12 +86,10 @@ module.exports = ({
         }
 
         const data = JSON.stringify(manifest)
-        const manifestKey = await new Promise((resolve, reject) => {
-          const digest = createDigest()
-          digest.write(data)
-          digest.end()
-          resolve(digest.read())
-        })
+        const digest = createDigest()
+        digest.write(data)
+        digest.end()
+        const manifestKey = digest.read()
         pendingUploads.push(uploadManifest(manifestKey, data))
 
         await Promise.all(pendingUploads)
