@@ -7,3 +7,5 @@ lerna-debug.log
 blob-storage
 dist
 .nyc_output/
+rusha-string.js
+.cache

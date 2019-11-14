@@ -14,6 +14,7 @@
     "packages:lint": "npx macleod exec npm run lint",
     "pretest": "npm run packages:install && npm run packages:build && npm run packages:lint",
     "test": "npx standard@latest test.js && tap test.js",
+    "quicktest": "tap test.js",
     "publish:all": "npm t && npx macleod exec publish"
   },
   "devDependencies": {

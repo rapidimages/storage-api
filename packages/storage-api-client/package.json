@@ -14,7 +14,7 @@
     "name": "James Kyburz",
     "email": "james.kyburz@gmail.se"
   },
-  "main": "dist/storage-api-client.cjs.js",
+  "main": "dist/storage-api-client.cjs",
   "version": "1.1.6",
   "module": "dist/storage-api-client.es.js",
   "browser": {
@@ -26,7 +26,8 @@
     "rollup:cjs": "rollup -c config/rollup.config.cjs.js && rollup -c config/rollup.config.browser.cjs.js",
     "rollup": "npm run rollup:es && npm run rollup:cjs",
     "lint": "npx standard@latest",
-    "prebuild": "rm -rf dist && mkdir -p dist",
+    "create:rusha-string": "rusha=$(node -r fs -p 'fs.readFileSync(require.resolve(\"rusha/dist/rusha.min.js\")).toString(\"base64\")'); echo \"export default () => window.atob('$rusha')\" > ./src/rusha-string.js",
+    "prebuild": "rm -rf dist && mkdir -p dist && npm run create:rusha-string",
     "build": "npm run rollup"
   },
   "dependencies": {
@@ -46,8 +47,6 @@
     ]
   },
   "devDependencies": {
-    "@rollup/plugin-buble": "0.20.0",
-    "@rollup/plugin-replace": "2.2.1",
     "rollup": "1.26.5"
   },
   "license": "Apache-2.0"

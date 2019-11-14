@@ -26,11 +26,9 @@
     "missing": "npx dependency-sync ./index.js --debug"
   },
   "dependencies": {
-    "busboy-wrapper": "2.0.56",
-    "mkdirp": "0.5.1",
-    "mv": "2.1.1",
-    "rimraf": "3.0.0",
-    "server-base": "7.0.84"
+    "@rapidimages/storage-api-router": "1.1.6",
+    "make-dir": "3.0.0",
+    "move-file": "1.2.0"
   },
   "devDependencies": {},
   "license": "Apache-2.0"
