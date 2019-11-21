@@ -33,7 +33,7 @@
   "dependencies": {
     "concat-stream": "2.0.0",
     "debug": "4.1.1",
-    "form-data": "2.5.1",
+    "form-data": "3.0.0",
     "node-fetch": "2.6.0",
     "once": "1.4.0",
     "rusha": "0.8.13"
