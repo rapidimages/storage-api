@@ -214,7 +214,7 @@ exports[`test.js TAP check manifest for upload > must match snapshot 2`] = `
 `
 
 exports[`test.js TAP upload multiple files > must match snapshot 1`] = `
-70e8ffba63de2e8de60ab542457cadac65acaa41
+021056a094de398de4531eff11e764dbb4bd1b9e
 `
 
 exports[`test.js TAP upload same file to storage checking it's known > must match snapshot 1`] = `

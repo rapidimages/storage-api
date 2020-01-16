@@ -1,6 +1,6 @@
 {
-  "name": "@rapidimages/storage-api-server",
-  "description": "storage api server",
+  "name": "@rapidimages/storage-api-file-provider",
+  "description": "storage api file server",
   "repository": {
     "type": "git",
     "url": "git@github.com:rapidimages/storage-api.git"
@@ -26,8 +26,6 @@
     "missing": "npx dependency-sync@latest"
   },
   "dependencies": {
-    "@rapidimages/storage-api-file-provider": "1.2.0",
-    "@rapidimages/storage-api-router": "1.2.0",
     "make-dir": "3.0.0",
     "move-file": "1.2.0"
   },
