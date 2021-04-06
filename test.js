@@ -154,7 +154,7 @@ test('uploading fails on server if multipart has no files', t => {
   const form = new FormData()
   form.submit('http://localhost:5000/upload', (err, res) => {
     t.error(err)
-    t.equals(res.statusCode, 400)
+    t.equal(res.statusCode, 400)
   })
 })
 

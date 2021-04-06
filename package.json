@@ -21,6 +21,9 @@
     "rimraf": "3.0.2",
     "tap": "15.0.2"
   },
+  "tap": {
+    "check-coverage": false
+  },
   "license": "Apache-2.0",
   "private": true
 }
