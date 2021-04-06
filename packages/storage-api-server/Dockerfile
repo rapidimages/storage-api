@@ -1,4 +1,4 @@
-from node:12.13.0-alpine
+from node:lts-alpine3.13
 
 LABEL maintainer="James Kyburz james.kyburz@gmail.com"
 
