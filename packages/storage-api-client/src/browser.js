@@ -60,7 +60,7 @@ function getKeys (files, onHashProgress, cb) {
   const keys = {}
   files.forEach(file => {
     progress(file.name)
-    var worker = createWorker(rusha)
+    const worker = createWorker(rusha)
     worker.addEventListener('message', e => {
       keys[e.data.id] = e.data.hash
       worker.revoke()

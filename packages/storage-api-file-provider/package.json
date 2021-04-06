@@ -26,8 +26,8 @@
     "missing": "npx dependency-sync@latest"
   },
   "dependencies": {
-    "make-dir": "3.0.0",
-    "move-file": "1.2.0"
+    "make-dir": "3.1.0",
+    "move-file": "2.0.0"
   },
   "devDependencies": {},
   "license": "Apache-2.0"

@@ -18,8 +18,8 @@
     "publish:all": "npm t && npx macleod exec publish"
   },
   "devDependencies": {
-    "rimraf": "3.0.0",
-    "tap": "14.7.0"
+    "rimraf": "3.0.2",
+    "tap": "15.0.2"
   },
   "license": "Apache-2.0",
   "private": true
