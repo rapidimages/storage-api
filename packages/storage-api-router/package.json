@@ -21,7 +21,7 @@
     "build": "echo"
   },
   "dependencies": {
-    "busboy-wrapper": "2.1.0",
+    "busboy-wrapper": "2.1.2",
     "del": "6.0.0",
     "pump": "3.0.0",
     "server-base-router": "7.1.27"
