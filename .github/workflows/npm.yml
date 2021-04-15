@@ -14,8 +14,9 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
         scope: '@rapidimages'
     - run: |
-        npm --prefix packages/storage-api-client i
-        npm --prefix packages/storage-api-client run build
-    - run: npm --prefix packages/storage-api-client publish
+        cd packages/storage-api-client
+        npm i
+        npm run build
+        npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
