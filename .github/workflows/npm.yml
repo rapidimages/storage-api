@@ -1,0 +1,21 @@
+name: publish
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+        registry-url: 'https://npm.pkg.github.com'
+        scope: '@rapidimages'
+    - run: |
+      npm --prefix packages/storage-api-client i
+      npm --prefix packages/storage-api-client run build
+    - run: npm --prefix packages/storage-api-client publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
